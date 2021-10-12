@@ -1,0 +1,34 @@
+{
+  "name": "parcel-namer-custom-dist-structure",
+  "version": "0.1.0",
+  "description": "A Parcel2+ plugin that allows you to specify a custom dist structure",
+  "author": "Andrew Stegmaier",
+  "license": "MIT",
+  "homepage": "https://github.com/astegmaier/parcel-namer-custom-dist-structure.git#readme",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/astegmaier/parcel-namer-custom-dist-structure.git"
+  },
+  "main": "dist/index.js",
+  "source": "src/index.ts",
+  "engines": {
+    "node": ">= 12.0.0",
+    "parcel": "^2.0.0-rc.0"
+  },
+  "scripts": {
+    "watch": "tsc --watch",
+    "build": "tsc",
+    "clean": "rimraf dist",
+    "format": "prettier --write src/**/* -u --no-error-on-unmatched-pattern"
+  },
+  "dependencies": {
+    "@parcel/plugin": "2.0.0-rc.0"
+  },
+  "devDependencies": {
+    "@parcel/types": "2.0.0-rc.0",
+    "@types/node": "^16.10.4",
+    "prettier": "^2.4.1",
+    "rimraf": "^3.0.2",
+    "typescript": "^4.4.3"
+  }
+}
