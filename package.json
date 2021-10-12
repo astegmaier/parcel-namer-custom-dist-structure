@@ -21,7 +21,8 @@
     "clean": "rimraf dist",
     "format": "prettier --write src/**/* -u --no-error-on-unmatched-pattern",
     "lint": "eslint src",
-    "test": "jest"
+    "test": "jest",
+    "test:watch": "yarn test --watch"
   },
   "dependencies": {
     "@parcel/plugin": "2.0.0-rc.0"
