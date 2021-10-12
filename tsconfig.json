@@ -5,10 +5,10 @@
 
     /* Modules */
     "module": "commonjs" /* Specify what module code is generated. */,
-    "rootDir": "./src" /* Specify the root folder within your source files. */,
+    "rootDir": "src" /* Specify the root folder within your source files. */,
 
     /* Emit */
-    "outDir": "./dist" /* Specify an output folder for all emitted files. */,
+    "outDir": "dist" /* Specify an output folder for all emitted files. */,
 
     /* Interop Constraints */
     "esModuleInterop": true /* Emit additional JavaScript to ease support for importing CommonJS modules. This enables `allowSyntheticDefaultImports` for type compatibility. */,
@@ -25,6 +25,7 @@
     "noImplicitOverride": true /* Ensure overriding members in derived classes are marked with an override modifier. */,
     "noPropertyAccessFromIndexSignature": true /* Enforces using indexed accessors for keys declared using an indexed type */,
     "allowUnusedLabels": true /* Disable error reporting for unused labels. */,
-    "allowUnreachableCode": true /* Disable error reporting for unreachable code. */
+    "allowUnreachableCode": true /* Disable error reporting for unreachable code. */,
+    "skipLibCheck": true // TODO: try to remove this when parcel2 is released.
   }
 }

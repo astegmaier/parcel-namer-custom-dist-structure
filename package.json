@@ -16,23 +16,27 @@
     "parcel": "^2.0.0-rc.0"
   },
   "scripts": {
-    "watch": "tsc --watch",
-    "build": "tsc",
+    "build": "tsc --p tsconfig.prod.json",
+    "watch": "yarn build --watch",
     "clean": "rimraf dist",
     "format": "prettier --write src/**/* -u --no-error-on-unmatched-pattern",
-    "lint": "eslint src"
+    "lint": "eslint src",
+    "test": "jest"
   },
   "dependencies": {
     "@parcel/plugin": "2.0.0-rc.0"
   },
   "devDependencies": {
     "@parcel/types": "2.0.0-rc.0",
+    "@types/jest": "^27.0.2",
     "@types/node": "^16.10.4",
     "@typescript-eslint/eslint-plugin": "^5.0.0",
     "@typescript-eslint/parser": "^5.0.0",
     "eslint": "^8.0.0",
+    "jest": "^27.2.5",
     "prettier": "^2.4.1",
     "rimraf": "^3.0.2",
+    "ts-jest": "^27.0.5",
     "typescript": "^4.4.3"
   }
 }
