@@ -13,7 +13,7 @@
   "source": "src/index.ts",
   "engines": {
     "node": ">= 12.0.0",
-    "parcel": "^2.0.0-rc.0"
+    "parcel": "^2.0.0"
   },
   "scripts": {
     "build": "tsc --p tsconfig.prod.json",
@@ -25,16 +25,17 @@
     "test:watch": "yarn test --watch"
   },
   "dependencies": {
-    "@parcel/plugin": "2.0.0"
+    "@parcel/plugin": "^2.0.0"
   },
   "devDependencies": {
+    "@babel/core": "^7.15.8",
     "@babel/preset-env": "^7.15.8",
-    "@parcel/config-default": "2.0.0",
-    "@parcel/core": "2.0.0",
-    "@parcel/fs": "2.0.0",
-    "@parcel/types": "2.0.0",
+    "@parcel/config-default": "^2.0.0",
+    "@parcel/core": "^2.0.0",
+    "@parcel/fs": "^2.0.0",
+    "@parcel/types": "^2.0.0",
     "@types/jest": "^27.0.2",
-    "@types/node": "^16.10.4",
+    "@types/node": "^16.10.6",
     "@typescript-eslint/eslint-plugin": "^5.0.0",
     "@typescript-eslint/parser": "^5.0.0",
     "eslint": "^8.0.0",
@@ -43,6 +44,6 @@
     "prettier": "^2.4.1",
     "rimraf": "^3.0.2",
     "ts-jest": "^27.0.5",
-    "typescript": "^4.4.3"
+    "typescript": "^4.4.4"
   }
 }
