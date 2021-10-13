@@ -1,42 +1,9 @@
-import Parcel, { createWorkerFarm } from "@parcel/core";
-import { InitialParcelOptions } from "@parcel/types";
-import { NodeFS, MemoryFS, FileSystem } from "@parcel/fs";
 import path from "path";
+import { bundle } from "./test-utils/bundle";
 
 describe("parcel-namer-custom-dist-structure", () => {
-  const entries: string = path.join(__dirname, "test-utils/project1");
-  const distDir: string = path.join(entries, "dist");
-  const configFile: string = path.join(__dirname, "test-utils/.parcelrc.test");
-
-  const inputFS = new NodeFS();
-  let outputFS: FileSystem;
-  let options: InitialParcelOptions;
-
-  beforeEach(() => {
-    const workerFarm = createWorkerFarm({ maxConcurrentWorkers: 0 });
-    outputFS = new MemoryFS(workerFarm);
-    options = {
-      entries,
-      shouldDisableCache: true,
-      logLevel: "none",
-      defaultConfig: configFile,
-      inputFS,
-      outputFS,
-      workerFarm,
-      shouldContentHash: true,
-      defaultTargetOptions: {
-        distDir,
-        engines: {
-          browsers: ["last 1 Chrome version"],
-          node: "8",
-        },
-      },
-    };
-  });
-
   it("puts .js bundles in a 'scripts' folder", async () => {
-    const parcel = new Parcel(options);
-    await parcel.run();
+    const { outputFS, distDir } = await bundle(path.join(__dirname, "test-utils/project1"));
 
     const output = await outputFS.readdir(distDir);
     expect(output).toEqual(["scripts", "index.html"]);
