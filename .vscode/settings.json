@@ -4,5 +4,5 @@
   "files.exclude": {
     "**/node_modules": true
   },
-  "cSpell.words": ["codepaths", "Stegmaier"]
+  "cSpell.words": ["codepaths", "parcelrc", "Stegmaier"]
 }

@@ -7,7 +7,7 @@ describe("parcel-namer-custom-dist-structure", () => {
   let options: InitialParcelOptions;
   let outputFS: FileSystem;
   const distDir: string = path.join(__dirname, "dist");
-  const configDir: string = path.join(__dirname, ".parcelrc-no-reporters");
+  const configFile: string = path.join(__dirname, ".parcelrc");
   const entries: string = path.join(__dirname, "test");
   beforeEach(() => {
     const workerFarm = createWorkerFarm({ maxConcurrentWorkers: 0 });
@@ -17,7 +17,7 @@ describe("parcel-namer-custom-dist-structure", () => {
       entries,
       shouldDisableCache: true,
       logLevel: "none",
-      defaultConfig: configDir,
+      defaultConfig: configFile,
       inputFS,
       outputFS,
       workerFarm,
@@ -31,11 +31,13 @@ describe("parcel-namer-custom-dist-structure", () => {
       },
     };
   });
-  it("bundles a basic project", async () => {
+  it("puts .js bundles in a 'scripts' folder", async () => {
     const parcel = new Parcel(options);
     expect(parcel).toBeDefined();
     await parcel.run();
-    const outputFileNames = await outputFS.readdir(distDir);
-    expect(outputFileNames).toEqual(["index.html", "a.js", "a.js.map"]);
+    const output = await outputFS.readdir(distDir);
+    expect(output).toEqual(["scripts", "index.html"]);
+    const scriptsOutput = await outputFS.readdir(path.join(distDir, "scripts"));
+    expect(scriptsOutput).toEqual(["a.js", "a.js.map"]);
   });
 });
