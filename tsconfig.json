@@ -26,6 +26,6 @@
     "noPropertyAccessFromIndexSignature": true /* Enforces using indexed accessors for keys declared using an indexed type */,
     "allowUnusedLabels": true /* Disable error reporting for unused labels. */,
     "allowUnreachableCode": true /* Disable error reporting for unreachable code. */,
-    "skipLibCheck": true // TODO: try to remove this when parcel2 is released.
+    "skipLibCheck": true // TODO: we have turned this on because "json-source-maps" (referenced in "@parcel/diagnostic") does not have type definitions.
   }
 }
