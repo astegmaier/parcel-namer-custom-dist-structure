@@ -4,9 +4,9 @@ import { NodeFS, MemoryFS, FileSystem } from "@parcel/fs";
 import path from "path";
 
 describe("parcel-namer-custom-dist-structure", () => {
-  const distDir: string = path.join(__dirname, "dist");
-  const configFile: string = path.join(__dirname, ".parcelrc");
-  const entries: string = path.join(__dirname, "test");
+  const entries: string = path.join(__dirname, "test-utils/project1");
+  const distDir: string = path.join(entries, "dist");
+  const configFile: string = path.join(__dirname, "test-utils/.parcelrc.test");
 
   const inputFS = new NodeFS();
   let outputFS: FileSystem;
