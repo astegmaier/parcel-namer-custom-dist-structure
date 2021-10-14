@@ -1,14 +1,14 @@
 import { Namer } from "@parcel/plugin";
 import type { Bundle } from "@parcel/types";
 import path from "path";
-import { isUserConfig, IProcessedConfig, processConfig } from "./config";
+import { IProcessedConfig, processConfig, isConfig } from "./config";
 
 export default new Namer<IProcessedConfig | undefined>({
   async loadConfig({ config }) {
     const configAndPath = await config.getConfig(["package.json"], { packageKey: "customDistStructure" });
     // TODO: should we throw errors if there is a half-valid config?
     // TODO: should we pick a default structure that you get with no config?
-    const userConfig = isUserConfig(configAndPath?.contents) ? configAndPath?.contents : undefined;
+    const userConfig = isConfig(configAndPath?.contents) ? configAndPath?.contents : undefined;
     return processConfig(userConfig);
   },
 
