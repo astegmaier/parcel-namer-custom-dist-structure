@@ -1,19 +1,21 @@
 import { Namer } from "@parcel/plugin";
 import type { Bundle } from "@parcel/types";
 import path from "path";
+import { isUserConfig, IProcessedConfig, processConfig } from "./config";
 
-export default new Namer({
-  name({ bundle }) {
-    switch (bundle.type) {
-      case "js":
-        return getPathWithFolder("scripts", bundle);
-      case "less":
-        return getPathWithFolder("layout", bundle);
-      case "css":
-        return getPathWithFolder("layout", bundle);
-      default:
-        return null;
-    }
+export default new Namer<IProcessedConfig | undefined>({
+  async loadConfig({ config }) {
+    const configAndPath = await config.getConfig(["package.json"], { packageKey: "customDistStructure" });
+    // TODO: should we throw errors if there is a half-valid config?
+    // TODO: should we pick a default structure that you get with no config?
+    const userConfig = isUserConfig(configAndPath?.contents) ? configAndPath?.contents : undefined;
+    return processConfig(userConfig);
+  },
+
+  name({ bundle, config }) {
+    const folderName = config?.extensionToFolderMap[bundle.type];
+    if (folderName) return getPathWithFolder(folderName, bundle);
+    return null;
   },
 });
 

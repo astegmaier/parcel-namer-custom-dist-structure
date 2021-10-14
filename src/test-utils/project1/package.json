@@ -1,3 +1,15 @@
 {
-  "source": "src/index.html"
+  "customDistStructure": {
+    "scripts": [
+      ".js",
+      ".jsx",
+      ".ts",
+      ".tsx"
+    ],
+    "layout": [
+      ".css",
+      ".less",
+      ".scss"
+    ]
+  }
 }

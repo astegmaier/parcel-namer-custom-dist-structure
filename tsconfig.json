@@ -9,6 +9,7 @@
 
     /* Emit */
     "outDir": "dist" /* Specify an output folder for all emitted files. */,
+    "sourceMap": true /* Create source map files for emitted JavaScript files. */,
 
     /* Interop Constraints */
     "esModuleInterop": true /* Emit additional JavaScript to ease support for importing CommonJS modules. This enables `allowSyntheticDefaultImports` for type compatibility. */,
@@ -26,6 +27,7 @@
     "noPropertyAccessFromIndexSignature": true /* Enforces using indexed accessors for keys declared using an indexed type */,
     "allowUnusedLabels": true /* Disable error reporting for unused labels. */,
     "allowUnreachableCode": true /* Disable error reporting for unreachable code. */,
-    "skipLibCheck": true // TODO: we have turned this on because "json-source-maps" (referenced in "@parcel/diagnostic") does not have type definitions.
+    // TODO: we have turned skipLibCheck on because "json-source-maps" (referenced in "@parcel/diagnostic") does not have type definitions.
+    "skipLibCheck": true /* Skip type checking all .d.ts files. */
   }
 }

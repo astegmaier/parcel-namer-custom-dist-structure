@@ -11,19 +11,22 @@ const inputFS = new NodeFS();
 
 /**
  * Bundles a test project with parcel.
- * @param projectPath the path to the project files.
+ * @param entryPath the path to the entry file of the project (e.g. index.html or index.js).
  * @param configPath (optional) the path to the .parcelrc file used for this run.
- * @returns an in-memory file system of the resulting output that can be inspected by tests. */
+ * @returns an object with these properties:
+ *      "outputFS": an in-memory file system of the resulting output that can be inspected by tests.
+ *      "distPath" the path to the output files in that file system.
+ */
 export async function bundle(
-  projectDir: string,
+  entryPath: string,
   configPath: string = CONFIG_WITH_PLUGIN
 ): Promise<{ outputFS: FileSystem; distDir: string }> {
   const workerFarm = createWorkerFarm({ maxConcurrentWorkers: 0 });
   const outputFS = new MemoryFS(workerFarm);
-  const distDir = path.join(projectDir, DEFAULT_DIST_PATH);
+  const distDir = path.join(path.dirname(entryPath), DEFAULT_DIST_PATH);
 
   const options: InitialParcelOptions = {
-    entries: projectDir,
+    entries: entryPath,
     shouldDisableCache: true,
     logLevel: "none",
     defaultConfig: configPath,
