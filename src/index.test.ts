@@ -34,4 +34,8 @@ describe("parcel-namer-custom-dist-structure", () => {
   it.skip("Can handle multiple build targets gracefully without conflict", () => {
     throw new Error("Not Implemented");
   });
+
+  it.skip("Can handle projects where package.json (with config) is at the same level of folder as the target", () => {
+    throw new Error("Not Implemented");
+  });
 });

@@ -1,4 +1,5 @@
 export interface IUserConfig {
+  // TODO: do we want to mirror the existing custom-dist-structure plugin, where there is also an "options" section that controls whether the custom structure affects dev builds?
   [folderOrExtension: string]: string | string[];
 }
 
