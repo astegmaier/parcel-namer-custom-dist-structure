@@ -1,13 +1,16 @@
+/** Configuration that the user can supply to this plugin through package.json */
 export interface IConfig {
   config?: IStructureConfig;
   options?: IOptions;
 }
 
+/** Other options related to the plugin. */
 interface IOptions {
   /* Enable plugin in development mode (default: false) */
   development?: boolean;
 }
 
+/** Configuration that maps extensions to folder names and/or vice-versa. */
 interface IStructureConfig {
   [folderOrExtension: string]: string | string[];
 }
@@ -44,12 +47,14 @@ function isStructureConfig(thing: unknown): thing is IStructureConfig {
   );
 }
 
+/** A config object that also contains a map corresponding to the user configuration that can be used to quickly lookup the right folder for a given file. */
 export interface IProcessedConfig extends IConfig {
   extensionToFolderMap: {
     [extension: string]: string;
   };
 }
 
+/** Generates IProcessedConfig from a valid, user-supplied IConfig object. */
 export function processConfig(config?: IConfig): IProcessedConfig | undefined {
   if (!config) return undefined;
   const extensionToFolderMap: { [extension: string]: string } = {};
