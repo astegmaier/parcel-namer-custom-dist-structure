@@ -5,10 +5,10 @@ describe("parcel-namer-custom-dist-structure", () => {
   it("puts .js bundles in a 'scripts' folder, based on configuration", async () => {
     const { outputFS, distDir } = await bundle(path.join(__dirname, "projects/simple/src/index.html"));
     const output = await outputFS.readdir(distDir);
-    expect(output).toEqual(["scripts", "index.html"]);
+    expect(output.sort()).toEqual(["index.html", "scripts"]);
 
     const scriptsOutput = await outputFS.readdir(path.join(distDir, "scripts"));
-    expect(scriptsOutput).toEqual(["a.js", "a.js.map"]);
+    expect(scriptsOutput.sort()).toEqual(["a.b586da9e.js", "a.b586da9e.js.map"]);
   });
 
   it.skip("Invalidates cache when config changes", () => {
@@ -42,15 +42,19 @@ describe("parcel-namer-custom-dist-structure", () => {
   it("By default, bundling in development mode ignores dist structure customization", async () => {
     const { outputFS, distDir } = await bundle(path.join(__dirname, "projects/simple/src/index.html"), { mode: "development" });
     const output = await outputFS.readdir(distDir);
-    expect(output).toEqual(["a.js", "a.js.map", "index.html"]);
+    expect(output.sort()).toEqual(["index.da070317.js", "index.da070317.js.map", "index.html"]);
   });
 
   it("Setting options:development: true, causes dist structure customization to be respected in development mode", async () => {
     const { outputFS, distDir } = await bundle(path.join(__dirname, "projects/development-true/src/index.html"), { mode: "development" });
     const output = await outputFS.readdir(distDir);
-    expect(output).toEqual(["scripts", "index.html"]);
+    expect(output.sort()).toEqual(["index.html", "scripts"]);
 
     const scriptsOutput = await outputFS.readdir(path.join(distDir, "scripts"));
-    expect(scriptsOutput).toEqual(["a.js", "a.js.map"]);
+    expect(scriptsOutput.sort()).toEqual(["a.fbc58559.js", "a.fbc58559.js.map"]);
+  });
+
+  it.skip("Should not append content hashes to content types that need stable names (e.g. HTML, etc.)", async () => {
+    throw new Error("Not Implemented");
   });
 });
