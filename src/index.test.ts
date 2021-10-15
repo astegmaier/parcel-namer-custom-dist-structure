@@ -38,4 +38,19 @@ describe("parcel-namer-custom-dist-structure", () => {
   it.skip("Can handle projects where package.json (with config) is at the same level of folder as the target", () => {
     throw new Error("Not Implemented");
   });
+
+  it("By default, bundling in development mode ignores dist structure customization", async () => {
+    const { outputFS, distDir } = await bundle(path.join(__dirname, "test-utils/project1/src/index.html"), { mode: "development" });
+    const output = await outputFS.readdir(distDir);
+    expect(output).toEqual(["a.js", "a.js.map", "index.html"]);
+  });
+
+  it("Setting options:development: true, causes dist structure customization to be respected in development mode", async () => {
+    const { outputFS, distDir } = await bundle(path.join(__dirname, "test-utils/development-true/src/index.html"), { mode: "development" });
+    const output = await outputFS.readdir(distDir);
+    expect(output).toEqual(["scripts", "index.html"]);
+
+    const scriptsOutput = await outputFS.readdir(path.join(distDir, "scripts"));
+    expect(scriptsOutput).toEqual(["a.js", "a.js.map"]);
+  });
 });

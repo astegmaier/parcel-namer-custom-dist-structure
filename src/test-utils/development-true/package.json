@@ -1,0 +1,20 @@
+{
+  "customDistStructure": {
+    "config": {
+      "scripts": [
+        ".js",
+        ".jsx",
+        ".ts",
+        ".tsx"
+      ],
+      "layout": [
+        ".css",
+        ".less",
+        ".scss"
+      ]
+    },
+    "options": {
+      "development": true
+    }
+  }
+}

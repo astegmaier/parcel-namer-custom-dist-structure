@@ -12,9 +12,11 @@ export default new Namer<IProcessedConfig | undefined>({
     return processConfig(userConfig);
   },
 
-  name({ bundle, config }) {
-    const folderName = config?.extensionToFolderMap[bundle.type];
-    if (folderName) return getPathWithFolder(folderName, bundle);
+  name({ bundle, config, options }) {
+    if (options.mode !== "development" || config?.options?.development) {
+      const folderName = config?.extensionToFolderMap[bundle.type];
+      if (folderName) return getPathWithFolder(folderName, bundle);
+    }
     return null;
   },
 });
