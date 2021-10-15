@@ -3,6 +3,8 @@ import { assertMatches } from "./assert";
 import { bundle } from "./bundle";
 
 describe("parcel-namer-custom-dist-structure", () => {
+  beforeEach(() => jest.setTimeout(20000));
+
   it("puts .js bundles in a 'scripts' folder, based on configuration", async () => {
     const { outputFS, distDir } = await bundle(path.join(__dirname, "projects/simple/src/index.html"));
     const output = await outputFS.readdir(distDir);
