@@ -54,7 +54,7 @@ describe("parcel-namer-custom-dist-structure", () => {
     expect(scriptsOutput.sort()).toEqual(["a.fbc58559.js", "a.fbc58559.js.map"]);
   });
 
-  it.skip("Should not append content hashes to content types that need stable names (e.g. HTML, etc.)", async () => {
+  it.skip("Should not append content hashes to content types that need stable names (e.g. HTML, linked references, libraries.)", async () => {
     throw new Error("Not Implemented");
   });
 });
