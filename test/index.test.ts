@@ -1,9 +1,9 @@
 import path from "path";
-import { bundle } from "./test-utils/bundle";
+import { bundle } from "./bundle";
 
 describe("parcel-namer-custom-dist-structure", () => {
   it("puts .js bundles in a 'scripts' folder, based on configuration", async () => {
-    const { outputFS, distDir } = await bundle(path.join(__dirname, "test-utils/project1/src/index.html"));
+    const { outputFS, distDir } = await bundle(path.join(__dirname, "projects/simple/src/index.html"));
     const output = await outputFS.readdir(distDir);
     expect(output).toEqual(["scripts", "index.html"]);
 
@@ -40,13 +40,13 @@ describe("parcel-namer-custom-dist-structure", () => {
   });
 
   it("By default, bundling in development mode ignores dist structure customization", async () => {
-    const { outputFS, distDir } = await bundle(path.join(__dirname, "test-utils/project1/src/index.html"), { mode: "development" });
+    const { outputFS, distDir } = await bundle(path.join(__dirname, "projects/simple/src/index.html"), { mode: "development" });
     const output = await outputFS.readdir(distDir);
     expect(output).toEqual(["a.js", "a.js.map", "index.html"]);
   });
 
   it("Setting options:development: true, causes dist structure customization to be respected in development mode", async () => {
-    const { outputFS, distDir } = await bundle(path.join(__dirname, "test-utils/development-true/src/index.html"), { mode: "development" });
+    const { outputFS, distDir } = await bundle(path.join(__dirname, "projects/development-true/src/index.html"), { mode: "development" });
     const output = await outputFS.readdir(distDir);
     expect(output).toEqual(["scripts", "index.html"]);
 

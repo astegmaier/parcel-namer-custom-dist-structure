@@ -16,11 +16,11 @@
     "parcel": "^2.0.0"
   },
   "scripts": {
-    "build": "tsc --p tsconfig.prod.json",
+    "build": "tsc --p tsconfig.build.json",
     "watch": "yarn build --watch",
     "clean": "rimraf dist",
     "format": "prettier --write src/**/* -u --no-error-on-unmatched-pattern",
-    "lint": "eslint src",
+    "lint": "eslint src test",
     "test": "jest",
     "test:watch": "yarn test --watch"
   },
