@@ -1,0 +1,17 @@
+{
+  "customDistStructure": {
+    "config": {
+      "layout": [
+        ".css",
+        ".less",
+        ".scss"
+      ],
+      ".js": "js",
+      "images": [
+        ".jpg",
+        ".png"
+      ],
+      ".svg": "scalable-images"
+    }
+  }
+}
