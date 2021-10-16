@@ -2,9 +2,7 @@
   "customDistStructure": {
     "config": {
       "layout": [
-        ".css",
-        ".less",
-        ".scss"
+        ".css"
       ],
       ".js": "js",
       "images": [
