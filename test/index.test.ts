@@ -1,9 +1,17 @@
 import path from "path";
+import { AsyncSubscription } from "@parcel/types";
 import { assertMatches } from "./assert";
-import { bundle } from "./bundle";
+import { bundle, bundler, getNextBuild } from "./bundle";
 
 describe("parcel-namer-custom-dist-structure", () => {
+  let subscription: AsyncSubscription | null;
   beforeEach(() => jest.setTimeout(20000));
+  afterEach(async () => {
+    if (subscription) {
+      await subscription.unsubscribe();
+      subscription = null;
+    }
+  });
 
   it("puts .js bundles in a 'scripts' folder, based on configuration", async () => {
     const { outputFS, distDir } = await bundle(path.join(__dirname, "projects/simple/src/index.html"));
@@ -69,13 +77,43 @@ describe("parcel-namer-custom-dist-structure", () => {
     assertMatches(output, [/index\.[a-f0-9]*\.js/, /index\.[a-f0-9]*\.js.map/, "index.html"]);
   });
 
-  it("Setting options:development: true, causes dist structure customization to be respected in development mode", async () => {
+  it("Setting options:development: true causes dist structure customization to be respected in development mode", async () => {
     const { outputFS, distDir } = await bundle(path.join(__dirname, "projects/development-true/src/index.html"), { mode: "development" });
     const output = await outputFS.readdir(distDir);
     expect(output.sort()).toEqual(["index.html", "scripts"]);
 
     const scriptsOutput = await outputFS.readdir(path.join(distDir, "scripts"));
     assertMatches(scriptsOutput, [/a\.[a-f0-9]*\.js/, /a\.[a-f0-9]*\.js.map/]);
+  });
+
+  // TODO: This test currently fails due to an issue in parcel where bundles named by a custom namer don't actually get written until their content changes.
+  // Also, the file with the old name never gets cleaned up.
+  it.skip("With options:development: true changes to config get reflected automatically in changes to dist structure", async () => {
+    const { parcel, outputFS, overlayFS, distDir } = bundler(path.join(__dirname, "projects/development-true/src/index.html"), {
+      mode: "development",
+    });
+    subscription = await parcel.watch();
+    await getNextBuild(parcel);
+
+    const output = await outputFS.readdir(distDir);
+    expect(output.sort()).toEqual(["index.html", "scripts"]);
+
+    const scriptsOutput = await outputFS.readdir(path.join(distDir, "scripts"));
+    assertMatches(scriptsOutput, [/a\.[a-f0-9]*\.js/, /a\.[a-f0-9]*\.js.map/]);
+
+    // This should update the config so that .js files get put into a "javascript" folder, instead of a "scripts" folder
+    const updatedPackageJSON = await overlayFS.readFile(path.join(__dirname, "projects/development-true/package.json-updated"));
+    await overlayFS.writeFile(path.join(__dirname, "projects/development-true/package.json"), updatedPackageJSON, {});
+
+    subscription = await parcel.watch();
+    await getNextBuild(parcel);
+
+    const output2 = await outputFS.readdir(distDir);
+    // Currently, this is still ["index.html", "scripts"], because of the issue above.
+    expect(output2.sort()).toEqual(["index.html", "javascript"]);
+
+    const scriptsOutput2 = await outputFS.readdir(path.join(distDir, "javascript"));
+    assertMatches(scriptsOutput2, [/a\.[a-f0-9]*\.js/, /a\.[a-f0-9]*\.js.map/]);
   });
 
   it.skip("Should not append content hashes to content types that need stable names (e.g. HTML, linked references, libraries, etc.)", async () => {
