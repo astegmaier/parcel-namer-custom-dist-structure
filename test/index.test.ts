@@ -22,14 +22,6 @@ describe("parcel-namer-custom-dist-structure", () => {
     assertMatches(scriptsOutput, [/a\.[a-f0-9]*\.js/, /a\.[a-f0-9]*\.js.map/]);
   });
 
-  it.skip("Invalidates cache when config changes", async () => {
-    throw new Error("Not Implemented");
-  });
-
-  it.skip("Does not invalidate cache when unrelated parts of package.json change", async () => {
-    throw new Error("Not Implemented");
-  });
-
   it("Can handle a mixture of both folder => extension[] entries and extension => folder entries", async () => {
     const { outputFS, distDir } = await bundle({ entryPath: path.join(__dirname, "projects/complex/src/index.html") });
     const output = await outputFS.readdir(distDir);
