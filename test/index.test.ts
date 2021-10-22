@@ -1,7 +1,6 @@
 import path from "path";
 import { AsyncSubscription } from "@parcel/types";
-import { assertMatches } from "./assert";
-import { bundle, bundler, getNextBuild } from "./bundle";
+import { assertMatches, bundle, bundler, getNextBuild } from "./utils";
 
 describe("parcel-namer-custom-dist-structure", () => {
   let subscription: AsyncSubscription | null;
