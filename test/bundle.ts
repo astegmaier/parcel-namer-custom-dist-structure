@@ -3,13 +3,16 @@ import { InitialParcelOptions, BuildEvent } from "@parcel/types";
 import { NodeFS, MemoryFS, FileSystem, OverlayFS } from "@parcel/fs";
 import path from "path";
 
-const CONFIG_WITH_PLUGIN: string = path.join(__dirname, ".parcelrc.test");
+const DEFAULT_CONFIG_PATH: string = path.join(__dirname, ".parcelrc.test");
 
 const DEFAULT_DIST_PATH = "dist";
 
 const inputFS = new NodeFS();
 
-interface IBundleOverrides {
+/** Configuration options that tests can use to control parcel behavior. */
+interface IBundlerConfig {
+  /** the path to the entry file of the project (e.g. index.html or index.js). */
+  entryPath: string;
   /** the path to the .parcelrc file used for this run. */
   configPath?: string;
   /** The mode to run parcel in. */
@@ -32,10 +35,8 @@ interface IBundler extends IBundlerTools {
 
 /**
  * Creates a Parcel instance with correct configuration and mock fileSystems that is ready to bundle or watch.
- * @param entryPath the path to the entry file of the project (e.g. index.html or index.js).
- * @param overrides overrides to the default options for this run.
  */
-export function bundler(entryPath: string, overrides?: IBundleOverrides): IBundler {
+export function bundler({ entryPath, configPath, mode }: IBundlerConfig): IBundler {
   const workerFarm = createWorkerFarm({ maxConcurrentWorkers: 0 });
   const outputFS = new MemoryFS(workerFarm);
   const overlayFS = new OverlayFS(outputFS, inputFS);
@@ -45,8 +46,8 @@ export function bundler(entryPath: string, overrides?: IBundleOverrides): IBundl
     entries: entryPath,
     shouldDisableCache: true,
     logLevel: "none",
-    defaultConfig: overrides?.configPath ?? CONFIG_WITH_PLUGIN,
-    mode: overrides?.mode ?? "production",
+    defaultConfig: configPath ?? DEFAULT_CONFIG_PATH,
+    mode: mode ?? "production",
     inputFS: overlayFS,
     outputFS,
     workerFarm,
@@ -64,13 +65,9 @@ export function bundler(entryPath: string, overrides?: IBundleOverrides): IBundl
   return { parcel, outputFS, overlayFS, distDir };
 }
 
-/**
- * Bundles a test project with parcel.
- * @param entryPath the path to the entry file of the project (e.g. index.html or index.js).
- * @param overrides overrides to the default options for this run.
- */
-export async function bundle(entryPath: string, overrides?: IBundleOverrides): Promise<IBundlerTools> {
-  const { parcel, ...bundlerTools } = bundler(entryPath, overrides);
+/** Bundles a test project with parcel. */
+export async function bundle(config: IBundlerConfig): Promise<IBundlerTools> {
+  const { parcel, ...bundlerTools } = bundler(config);
   await parcel.run();
   return { ...bundlerTools };
 }

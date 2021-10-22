@@ -14,7 +14,7 @@ describe("parcel-namer-custom-dist-structure", () => {
   });
 
   it("puts .js bundles in a 'scripts' folder, based on configuration", async () => {
-    const { outputFS, distDir } = await bundle(path.join(__dirname, "projects/simple/src/index.html"));
+    const { outputFS, distDir } = await bundle({ entryPath: path.join(__dirname, "projects/simple/src/index.html") });
     const output = await outputFS.readdir(distDir);
     expect(output.sort()).toEqual(["index.html", "scripts"]);
 
@@ -31,7 +31,7 @@ describe("parcel-namer-custom-dist-structure", () => {
   });
 
   it("Can handle a mixture of both folder => extension[] entries and extension => folder entries", async () => {
-    const { outputFS, distDir } = await bundle(path.join(__dirname, "projects/complex/src/index.html"));
+    const { outputFS, distDir } = await bundle({ entryPath: path.join(__dirname, "projects/complex/src/index.html") });
     const output = await outputFS.readdir(distDir);
     expect(output.sort()).toEqual(["images", "index.html", "js", "layout", "scalable-images"]);
 
@@ -72,13 +72,16 @@ describe("parcel-namer-custom-dist-structure", () => {
   });
 
   it("By default, bundling in development mode ignores dist structure customization", async () => {
-    const { outputFS, distDir } = await bundle(path.join(__dirname, "projects/simple/src/index.html"), { mode: "development" });
+    const { outputFS, distDir } = await bundle({ entryPath: path.join(__dirname, "projects/simple/src/index.html"), mode: "development" });
     const output = await outputFS.readdir(distDir);
     assertMatches(output, [/index\.[a-f0-9]*\.js/, /index\.[a-f0-9]*\.js.map/, "index.html"]);
   });
 
   it("Setting options:development: true causes dist structure customization to be respected in development mode", async () => {
-    const { outputFS, distDir } = await bundle(path.join(__dirname, "projects/development-true/src/index.html"), { mode: "development" });
+    const { outputFS, distDir } = await bundle({
+      entryPath: path.join(__dirname, "projects/development-true/src/index.html"),
+      mode: "development",
+    });
     const output = await outputFS.readdir(distDir);
     expect(output.sort()).toEqual(["index.html", "scripts"]);
 
@@ -89,7 +92,8 @@ describe("parcel-namer-custom-dist-structure", () => {
   // TODO: This test currently fails due to an issue in parcel where bundles named by a custom namer don't actually get written until their content changes.
   // Also, the file with the old name never gets cleaned up.
   it.skip("With options:development: true changes to config get reflected automatically in changes to dist structure", async () => {
-    const { parcel, outputFS, overlayFS, distDir } = bundler(path.join(__dirname, "projects/development-true/src/index.html"), {
+    const { parcel, outputFS, overlayFS, distDir } = bundler({
+      entryPath: path.join(__dirname, "projects/development-true/src/index.html"),
       mode: "development",
     });
     subscription = await parcel.watch();
