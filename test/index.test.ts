@@ -113,7 +113,7 @@ describe("parcel-namer-custom-dist-structure", () => {
     await getNextBuild(parcel);
 
     const output2 = await outputFS.readdir(distDir);
-    // Currently, this is still ["index.html", "scripts"], because of the issue above.
+    // TODO: Currently, this is still ["index.html", "scripts"], because of the issue above.
     expect(output2.sort()).toEqual(["index.html", "javascript"]);
 
     const scriptsOutput2 = await outputFS.readdir(path.join(distDir, "javascript"));
