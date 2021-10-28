@@ -77,6 +77,5 @@ export function processConfig(config?: IConfig): IProcessedConfig | undefined {
 
 /** Strips the leading "dot" from an extension name, if it exists. (e.g. ".js" => "js") */
 function stripLeadingDot(extension: string): string {
-  // TODO: how should we handle extension names with two dots in them (e.g. ".d.ts")? Need to add tests
   return extension.charAt(0) === "." ? extension.substr(1) : extension;
 }

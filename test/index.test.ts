@@ -46,10 +46,6 @@ describe("parcel-namer-custom-dist-structure", () => {
     assertMatches(scalableImagesOutput, [/path\.[a-f0-9]*\.svg/]);
   });
 
-  it.skip("Can handle extensions with multiple parts (e.g. '.d.ts')", async () => {
-    throw new Error("Not Implemented");
-  });
-
   it.skip("Throws an error when an invalid configuration is present", async () => {
     throw new Error("Not Implemented");
   });
